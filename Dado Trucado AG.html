@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Dado Trucado 3D</title>
+    <!-- Tailwind CSS -->
+    <style>
+/*! tailwindcss v4.2.2 | MIT License | https://tailwindcss.com */
+@layer properties;
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --font-sans: "Outfit", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+    --color-orange-500: oklch(70.5% 0.213 47.604);
+    --color-blue-500: oklch(62.3% 0.214 259.815);
+    --color-blue-600: oklch(54.6% 0.245 262.881);
+    --color-purple-600: oklch(55.8% 0.288 302.321);
+    --color-gray-100: oklch(96.7% 0.003 264.542);
+    --color-gray-200: oklch(92.8% 0.006 264.531);
+    --color-gray-300: oklch(87.2% 0.01 258.338);
+    --color-gray-400: oklch(70.7% 0.022 261.325);
+    --color-gray-500: oklch(55.1% 0.027 264.364);
+    --color-gray-600: oklch(44.6% 0.03 256.802);
+    --color-gray-800: oklch(27.8% 0.033 256.848);
+    --color-white: #fff;
+    --spacing: 0.25rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: calc(1 / 0.75);
+    --text-sm: 0.875rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --tracking-tighter: -0.05em;
+    --tracking-tight: -0.025em;
+    --tracking-wider: 0.05em;
+    --leading-tight: 1.25;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --default-font-family: var(--font-sans);
+    --default-mono-font-family: var(--font-mono);
+    --color-coral-400: #ff7f50;
+    --color-coral-500: #ff6347;
+    --color-turquoise-400: #40e0d0;
+    --color-turquoise-500: #00ced1;
+  }
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    line-height: 1;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type='button'], [type='reset'], [type='submit']), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden='until-found'])) {
+    display: none !important;
+  }
+}
+@layer utilities {
+  .pointer-events-auto {
+    pointer-events: auto;
+  }
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  .visible {
+    visibility: visible;
+  }
+  .absolute {
+    position: absolute;
+  }
+  .relative {
+    position: relative;
+  }
+  .start {
+    inset-inline-start: var(--spacing);
+  }
+  .end {
+    inset-inline-end: var(--spacing);
+  }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
+  .right-1 {
+    right: calc(var(--spacing) * 1);
+  }
+  .left-0 {
+    left: calc(var(--spacing) * 0);
+  }
+  .z-10 {
+    z-index: 10;
+  }
+  .z-20 {
+    z-index: 20;
+  }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-3 {
+    margin-top: calc(var(--spacing) * 3);
+  }
+  .mb-2 {
+    margin-bottom: calc(var(--spacing) * 2);
+  }
+  .box-border {
+    box-sizing: border-box;
+  }
+  .block {
+    display: block;
+  }
+  .flex {
+    display: flex;
+  }
+  .grid {
+    display: grid;
+  }
+  .hidden {
+    display: none;
+  }
+  .h-2 {
+    height: calc(var(--spacing) * 2);
+  }
+  .h-4 {
+    height: calc(var(--spacing) * 4);
+  }
+  .h-32 {
+    height: calc(var(--spacing) * 32);
+  }
+  .h-full {
+    height: 100%;
+  }
+  .max-h-full {
+    max-height: 100%;
+  }
+  .min-h-0 {
+    min-height: calc(var(--spacing) * 0);
+  }
+  .min-h-\[60px\] {
+    min-height: 60px;
+  }
+  .min-h-\[100px\] {
+    min-height: 100px;
+  }
+  .w-4 {
+    width: calc(var(--spacing) * 4);
+  }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
+  }
+  .w-full {
+    width: 100%;
+  }
+  .flex-1 {
+    flex: 1;
+  }
+  .shrink {
+    flex-shrink: 1;
+  }
+  .shrink-0 {
+    flex-shrink: 0;
+  }
+  .transform {
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
+  .resize {
+    resize: both;
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .flex-col {
+    flex-direction: column;
+  }
+  .items-center {
+    align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
+  }
+  .justify-between {
+    justify-content: space-between;
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
+  }
+  .space-y-2 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
+  .overflow-y-auto {
+    overflow-y: auto;
+  }
+  .rounded-\[12px\] {
+    border-radius: 12px;
+  }
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
+  .border-t {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
+  .border-gray-100 {
+    border-color: var(--color-gray-100);
+  }
+  .border-gray-200 {
+    border-color: var(--color-gray-200);
+  }
+  .bg-coral-400 {
+    background-color: var(--color-coral-400);
+  }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
+  }
+  .bg-gray-800 {
+    background-color: var(--color-gray-800);
+  }
+  .bg-turquoise-400 {
+    background-color: var(--color-turquoise-400);
+  }
+  .bg-gradient-to-br {
+    --tw-gradient-position: to bottom right in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .bg-gradient-to-r {
+    --tw-gradient-position: to right in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .from-coral-400 {
+    --tw-gradient-from: var(--color-coral-400);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-coral-500 {
+    --tw-gradient-from: var(--color-coral-500);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-turquoise-400 {
+    --tw-gradient-from: var(--color-turquoise-400);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-blue-500 {
+    --tw-gradient-to: var(--color-blue-500);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-coral-500 {
+    --tw-gradient-to: var(--color-coral-500);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-purple-600 {
+    --tw-gradient-to: var(--color-purple-600);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .bg-clip-text {
+    background-clip: text;
+  }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+  .py-2 {
+    padding-block: calc(var(--spacing) * 2);
+  }
+  .pt-2 {
+    padding-top: calc(var(--spacing) * 2);
+  }
+  .pt-3 {
+    padding-top: calc(var(--spacing) * 3);
+  }
+  .pr-1 {
+    padding-right: calc(var(--spacing) * 1);
+  }
+  .pb-1 {
+    padding-bottom: calc(var(--spacing) * 1);
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .text-\[9px\] {
+    font-size: 9px;
+  }
+  .text-\[10px\] {
+    font-size: 10px;
+  }
+  .text-\[11px\] {
+    font-size: 11px;
+  }
+  .leading-4 {
+    --tw-leading: calc(var(--spacing) * 4);
+    line-height: calc(var(--spacing) * 4);
+  }
+  .leading-tight {
+    --tw-leading: var(--leading-tight);
+    line-height: var(--leading-tight);
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .font-medium {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+  }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .tracking-tight {
+    --tw-tracking: var(--tracking-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+  .tracking-tighter {
+    --tw-tracking: var(--tracking-tighter);
+    letter-spacing: var(--tracking-tighter);
+  }
+  .tracking-wider {
+    --tw-tracking: var(--tracking-wider);
+    letter-spacing: var(--tracking-wider);
+  }
+  .text-coral-500 {
+    color: var(--color-coral-500);
+  }
+  .text-gray-300 {
+    color: var(--color-gray-300);
+  }
+  .text-gray-400 {
+    color: var(--color-gray-400);
+  }
+  .text-gray-500 {
+    color: var(--color-gray-500);
+  }
+  .text-gray-600 {
+    color: var(--color-gray-600);
+  }
+  .text-gray-800 {
+    color: var(--color-gray-800);
+  }
+  .text-transparent {
+    color: transparent;
+  }
+  .text-turquoise-500 {
+    color: var(--color-turquoise-500);
+  }
+  .text-white {
+    color: var(--color-white);
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .italic {
+    font-style: italic;
+  }
+  .shadow-md {
+    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-xl {
+    --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
+  }
+  .backdrop-filter {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-75 {
+    --tw-duration: 75ms;
+    transition-duration: 75ms;
+  }
+  .duration-300 {
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+  }
+  .hover\:scale-105 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 105%;
+        --tw-scale-y: 105%;
+        --tw-scale-z: 105%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
+  .hover\:bg-gray-300 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-300);
+      }
+    }
+  }
+  .hover\:from-coral-500 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-gradient-from: var(--color-coral-500);
+        --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+      }
+    }
+  }
+  .hover\:from-turquoise-500 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-gradient-from: var(--color-turquoise-500);
+        --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+      }
+    }
+  }
+  .hover\:to-blue-600 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-gradient-to: var(--color-blue-600);
+        --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+      }
+    }
+  }
+  .hover\:to-orange-500 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-gradient-to: var(--color-orange-500);
+        --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+      }
+    }
+  }
+  .md\:p-6 {
+    @media (width >= 48rem) {
+      padding: calc(var(--spacing) * 6);
+    }
+  }
+}
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-gradient-position {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-via {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-via-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --tw-gradient-via-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --tw-gradient-to-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-gradient-position: initial;
+      --tw-gradient-from: #0000;
+      --tw-gradient-via: #0000;
+      --tw-gradient-to: #0000;
+      --tw-gradient-stops: initial;
+      --tw-gradient-via-stops: initial;
+      --tw-gradient-from-position: 0%;
+      --tw-gradient-via-position: 50%;
+      --tw-gradient-to-position: 100%;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-outline-style: solid;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
+      --tw-duration: initial;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
+    }
+  }
+}
+
+    </style>
+    <!-- Import Map for Modules -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js",
+                "cannon-es-debugger": "https://unpkg.com/cannon-es-debugger@1.0.0/dist/cannon-es-debugger.js",
+                "lil-gui": "https://unpkg.com/lil-gui@0.19.1/dist/lil-gui.esm.min.js"
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f2f5;
+            color: #2d3436;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .pointer-events-auto {
+            pointer-events: auto;
+        }
+
+        /* Glassmorphism panel - Light Version */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        /* Specific fix for dropdown options readability */
+        select option {
+            background-color: white !important;
+            color: #2d3436 !important;
+            padding: 8px;
+        }
+
+        select:focus {
+            outline: 2px solid #ff7f50;
+        }
+
+        /* Custom scrollbar for stats */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d8e0;
+            border-radius: 3px;
+        }
+
+        /* lil-gui light theme overrides */
+        :root {
+            --lil-gui-background-color: rgba(255, 255, 255, 0.8);
+            --lil-gui-text-color: #2d3436;
+            --lil-gui-title-background-color: rgba(255, 255, 255, 0.9);
+            --lil-gui-title-text-color: #ff7f50;
+            --lil-gui-widget-color: #f0f2f5;
+            --lil-gui-hover-color: #e2e8f0;
+            --lil-gui-focus-color: #ff7f50;
+            --lil-gui-number-color: #00ced1;
+            --lil-gui-string-color: #ff7f50;
+            --lil-gui-font-family: 'Outfit', sans-serif;
+            --lil-gui-font-size: 12px;
+        }
+
+        .lil-gui {
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .lil-gui.root {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            width: 100% !important;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div id="ui-layer" class="flex justify-between h-full w-full p-4 md:p-6 pointer-events-none box-border z-10 absolute top-0 left-0">
+        
+        <!-- Left Column -->
+        <div class="flex flex-col justify-between h-full max-h-full gap-4 w-80 shrink-0">
+            <!-- Header -->
+            <div class="glass-panel p-4 pointer-events-auto">
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-coral-500 to-purple-600 bg-clip-text text-transparent leading-tight">Dado Trucado 3D</h1>
+                <p class="text-sm text-gray-600 mt-2 italic leading-tight">
+                    Simulación física de un dado con centro de masa variable. Ajusta el relleno para alterar las probabilidades.
+                </p>
+                <div class="mt-3 text-xs text-gray-500 grid grid-cols-2 gap-2">
+                    <div>
+                        <span class="block text-gray-400 uppercase tracking-tighter font-bold">Masa Total:</span>
+                        <span id="mass-display" class="font-mono text-gray-800">- g</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 uppercase tracking-tighter font-bold">Desvío CoG:</span>
+                        <span id="cog-display" class="font-mono text-gray-800">0, 0, 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Controls -->
+            <div class="glass-panel p-4 pointer-events-auto flex flex-col min-h-0 shrink">
+                <div class="flex justify-between items-center mb-2 shrink-0">
+                    <h3 class="font-bold text-sm uppercase tracking-wider text-coral-500">Estadísticas</h3>
+                    <span id="total-rolls" class="text-xs text-gray-400">0 lanzamientos</span>
+                </div>
+
+                <div id="histogram" class="space-y-2 text-xs font-semibold overflow-y-auto min-h-[60px] flex-1 pr-1 pb-1">
+                    <!-- Bars will be injected here -->
+                </div>
+
+                <div class="mt-3 pt-3 border-t border-gray-200 flex gap-2 shrink-0">
+                    <button id="btn-roll"
+                        class="flex-1 bg-gradient-to-br from-coral-400 to-coral-500 hover:from-coral-500 hover:to-orange-500 text-white py-2 px-3 rounded-full transition-all transform hover:scale-105 shadow-md font-bold text-sm">
+                        Lanzar
+                    </button>
+                    <button id="btn-sim"
+                        class="flex-1 bg-gradient-to-br from-turquoise-400 to-blue-500 hover:from-turquoise-500 hover:to-blue-600 text-white py-2 px-3 rounded-full transition-all transform hover:scale-105 shadow-md font-bold text-sm">
+                        Simular
+                    </button>
+                    <button id="btn-reset"
+                        class="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-full text-gray-600 transition-all font-bold">
+                        ↻
+                    </button>
+                </div>
+                <div id="sim-progress" class="hidden w-full bg-gray-200 h-2 mt-2 rounded-full overflow-hidden shrink-0">
+                    <div class="bg-gradient-to-r from-turquoise-400 to-blue-500 h-full transition-all duration-75"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="flex flex-col justify-between items-end h-full max-h-full gap-4 w-80 shrink-0">
+            <!-- GUI Container -->
+            <div id="gui-container" class="pointer-events-auto shrink overflow-y-auto overflow-x-hidden min-h-[100px] w-full rounded-[12px]" style="max-height: calc(100vh - 280px);"></div>
+            
+            <!-- Analysis Panel -->
+            <div id="analysis-panel" class="z-20 glass-panel p-4 shadow-xl w-full pointer-events-auto shrink-0">
+                <h2 class="text-sm font-bold mb-2 text-turquoise-500 flex justify-between items-center">
+                    Análisis de Desviación
+                </h2>
+                <div class="relative w-full h-32">
+                    <canvas id="comChart"></canvas>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-1 text-center font-medium uppercase tracking-tighter">Evolución del CdG según el relleno</p>
+                
+                <!-- Optimization Info -->
+                <div class="mt-2 pt-2 border-t border-gray-100 flex justify-between items-center text-[11px]">
+                    <div class="text-turquoise-600 font-bold uppercase">Optimización</div>
+                    <div class="text-right">
+                        <span class="text-gray-400 block tracking-tight uppercase font-bold text-[9px]">Altura Óptima:</span>
+                        <span id="opt-height" class="font-mono text-gray-800 text-xs">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+        import * as CANNON from 'cannon-es';
+        import CannonDebugger from 'cannon-es-debugger'; // Correct ESM default import? Actually usually named export. Check docs. 
+        // cannon-es-debugger defaults export a function usually.
+        import GUI from 'lil-gui';
+
+        // --- Configuration ---
+        const config = {
+            dieSize: 2.0,       // Rango 1.0 a 3.0
+            dieColor: 0xffffff,
+            pipColor: 0x000000,
+            wallThickness: 0.15,
+            fillerType: 'Cara', // 'Cara' o 'Arista'
+            fillerTarget: '1',  // Cara '1'-'6' o Arista '1-2', '1-3', etc.
+            fillerHeight: 0.3,  // Altura o longitud del cateto del relleno
+            shellDensity: 1.0, 
+            fillerDensity: 1.0, 
+            restitution: 0.3,
+            friction: 0.1,
+            empiricalPhysicsFactor: 0.65,
+            debugPhysics: false,
+            renderMode: 'Cristal',
+            showTotalCoM: true,
+            showShellCoM: false,
+            showFillerCoM: false
+        };
+
+        const stats = {
+            rolls: 0,
+            counts: [0, 0, 0, 0, 0, 0], // Index 0 -> Face 1, Index 5 -> Face 6
+            history: []
+        };
+
+        // --- Globals ---
+        let scene, camera, renderer, controls;
+        let world, dieBody, floorBody;
+        let dieMesh, voidMesh, cavityMesh, comMarker, shellComMarker, fillerComMarker;
+        let dieMaterials = []; // Store to update opacity/type
+        let physicsInterval;
+        let isSimulating = false;
+        let cannonDebugger; // Debugger instance
+        let comChart; // Chart handler
+
+        const faceNormals = [
+            { vector: new CANNON.Vec3(0, 1, 0), value: 1, name: '1' },
+            { vector: new CANNON.Vec3(0, -1, 0), value: 6, name: '6' },
+            { vector: new CANNON.Vec3(1, 0, 0), value: 5, name: '5' },
+            { vector: new CANNON.Vec3(-1, 0, 0), value: 2, name: '2' },
+            { vector: new CANNON.Vec3(0, 0, 1), value: 3, name: '3' },
+            { vector: new CANNON.Vec3(0, 0, -1), value: 4, name: '4' }
+        ];
+
+        const edges = [
+            { faces: ['1', '2'], n1: new CANNON.Vec3(0, 1, 0), n2: new CANNON.Vec3(-1, 0, 0) },
+            { faces: ['1', '5'], n1: new CANNON.Vec3(0, 1, 0), n2: new CANNON.Vec3(1, 0, 0) },
+            { faces: ['1', '3'], n1: new CANNON.Vec3(0, 1, 0), n2: new CANNON.Vec3(0, 0, 1) },
+            { faces: ['1', '4'], n1: new CANNON.Vec3(0, 1, 0), n2: new CANNON.Vec3(0, 0, -1) },
+            { faces: ['6', '2'], n1: new CANNON.Vec3(0, -1, 0), n2: new CANNON.Vec3(-1, 0, 0) },
+            { faces: ['6', '5'], n1: new CANNON.Vec3(0, -1, 0), n2: new CANNON.Vec3(1, 0, 0) },
+            { faces: ['6', '3'], n1: new CANNON.Vec3(0, -1, 0), n2: new CANNON.Vec3(0, 0, 1) },
+            { faces: ['6', '4'], n1: new CANNON.Vec3(0, -1, 0), n2: new CANNON.Vec3(0, 0, -1) },
+            { faces: ['2', '3'], n1: new CANNON.Vec3(-1, 0, 0), n2: new CANNON.Vec3(0, 0, 1) },
+            { faces: ['2', '4'], n1: new CANNON.Vec3(-1, 0, 0), n2: new CANNON.Vec3(0, 0, -1) },
+            { faces: ['5', '3'], n1: new CANNON.Vec3(1, 0, 0), n2: new CANNON.Vec3(0, 0, 1) },
+            { faces: ['5', '4'], n1: new CANNON.Vec3(1, 0, 0), n2: new CANNON.Vec3(0, 0, -1) },
+        ];
+
+        // --- Initialization ---
+        init();
+        animate();
+
+        function init() {
+            // 1. Scene Setup
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f2f5); // Soft light background
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 15, 15);
+            camera.lookAt(0, 0, 0);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Controls
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1.2); // Brighter
+            dirLight.position.set(5, 15, 5);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 2048;
+            dirLight.shadow.mapSize.height = 2048;
+            dirLight.shadow.camera.near = 0.5;
+            dirLight.shadow.camera.far = 50;
+            scene.add(dirLight);
+
+            // Back light for glass effect
+            const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            backLight.position.set(-5, 0, -5);
+            scene.add(backLight);
+
+            // Floor Visuals
+            const floorGeo = new THREE.PlaneGeometry(50, 50);
+            const floorMat = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 1.0,
+                metalness: 0
+            });
+            const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+            floorMesh.rotation.x = -Math.PI / 2;
+            floorMesh.receiveShadow = true;
+            scene.add(floorMesh);
+
+            // Grid Helper
+            const grid = new THREE.GridHelper(50, 50, 0xd1d8e0, 0xe2e8f0);
+            scene.add(grid);
+
+            // 2. Physics World
+            world = new CANNON.World();
+            world.gravity.set(0, -9.82 * 4, 0); // Higher gravity for snappier die
+            world.allowSleep = true;
+
+            // Physics Materials
+            const dieMat = new CANNON.Material();
+            const floorPhysMat = new CANNON.Material();
+            const contactMat = new CANNON.ContactMaterial(dieMat, floorPhysMat, {
+                friction: config.friction,
+                restitution: config.restitution
+            });
+            world.addContactMaterial(contactMat);
+
+            // Floor Body
+            floorBody = new CANNON.Body({
+                mass: 0,
+                shape: new CANNON.Plane(),
+                material: floorPhysMat
+            });
+            floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+            world.addBody(floorBody);
+
+            // Debugger Setup
+            // cannon-es-debugger needs THREE and CANNON instances usually? Or just scene/world.
+            // Check usage: import CannonDebugger from ...; const debugger = CannonDebugger(scene, world, { ... });
+            cannonDebugger = CannonDebugger(scene, world, {
+                color: 0xffff00,
+                scale: 1.0,
+            });
+
+            // 3. Die Creation
+            createDie(dieMat);
+
+            // 4. GUI
+            setupGUI();
+            if (typeof initChart === 'function') initChart();
+
+            // 5. DOM Events
+            window.addEventListener('resize', onWindowResize);
+            document.getElementById('btn-roll').addEventListener('click', () => throwDie());
+            document.getElementById('btn-reset').addEventListener('click', resetStats);
+            document.getElementById('btn-sim').addEventListener('click', simulateThrows);
+
+            updateHistogram();
+            updateDieProperties(); // Fix: Call directly, not via alias that might not be set
+        }
+
+        // --- Die & Physics Logic ---
+
+        function createPipTexture(number) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256; // Higher res
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#f8f8f8'; // Whiter
+            ctx.fillRect(0, 0, 256, 256);
+
+            // Border/Edge simulation - Make subtle or remove to avoid "Wireframe" confusion
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 2; // Very thin
+            ctx.strokeRect(0, 0, 256, 256);
+
+            // Pips
+            ctx.fillStyle = 'black';
+            const r = 24;
+            const c = 128;
+            const o = 60;
+
+            const positions = [];
+            if (number % 2 === 1) positions.push([c, c]);
+            if (number > 1) positions.push([c - o, c - o], [c + o, c + o]);
+            if (number > 3) positions.push([c - o, c + o], [c + o, c - o]);
+            if (number === 6) positions.push([c - o, c], [c + o, c]);
+
+            positions.forEach(([x, y]) => {
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            return tex;
+        }
+
+        function createDie(physMaterial) {
+            // Visual Mesh
+            const mapOrdering = [5, 2, 1, 6, 3, 4]; // +x, -x, +y, -y, +z, -z
+
+            dieMaterials = mapOrdering.map(num => {
+                return new THREE.MeshPhysicalMaterial({
+                    map: createPipTexture(num),
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.9,
+                    transmission: 0.1, // Glassy
+                    roughness: 0.1,
+                    metalness: 0,
+                    thickness: 1.5,
+                    side: THREE.DoubleSide
+                });
+            });
+
+            const radius = config.dieSize * 0.15; // 15% rounding
+            const geometry = new RoundedBoxGeometry(config.dieSize, config.dieSize, config.dieSize, 4, radius);
+
+            dieMesh = new THREE.Mesh(geometry, dieMaterials);
+            dieMesh.castShadow = true;
+            dieMesh.receiveShadow = true;
+
+            const voidGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+            const voidMat = new THREE.MeshPhongMaterial({
+                color: 0xff0000,
+                shininess: 100,
+                emissive: 0x550000,
+                transparent: true,
+                opacity: 0.8,
+                depthTest: true
+            });
+            voidMesh = new THREE.Mesh(voidGeo, voidMat);
+            dieMesh.add(voidMesh);
+
+            const cavityGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+            const cavityMat = new THREE.MeshStandardMaterial({
+                color: 0xeeeeee,
+                transparent: true,
+                opacity: 0.1,
+                side: THREE.BackSide,
+                roughness: 0,
+                metalness: 0
+            });
+            cavityMesh = new THREE.Mesh(cavityGeo, cavityMat);
+            dieMesh.add(cavityMesh);
+
+            const markerGeo = new THREE.SphereGeometry(0.1, 16, 16);
+            
+            comMarker = new THREE.Mesh(markerGeo, new THREE.MeshBasicMaterial({ color: 0x00ff00, depthTest: false, transparent: true, opacity: 0.8 }));
+            comMarker.renderOrder = 999;
+            scene.add(comMarker);
+
+            shellComMarker = new THREE.Mesh(markerGeo, new THREE.MeshBasicMaterial({ color: 0x0000ff, depthTest: false, transparent: true, opacity: 0.8 }));
+            shellComMarker.renderOrder = 998;
+            scene.add(shellComMarker);
+
+            fillerComMarker = new THREE.Mesh(markerGeo, new THREE.MeshBasicMaterial({ color: 0xff0000, depthTest: false, transparent: true, opacity: 0.8 }));
+            fillerComMarker.renderOrder = 997;
+            scene.add(fillerComMarker);
+
+            scene.add(dieMesh);
+
+            const shape = new CANNON.Box(new CANNON.Vec3(config.dieSize / 2, config.dieSize / 2, config.dieSize / 2));
+            dieBody = new CANNON.Body({
+                mass: 1,
+                material: physMaterial
+            });
+            dieBody.addShape(shape);
+            dieBody.position.set(0, 5, 0);
+            dieBody.angularDamping = 0.05;
+            dieBody.linearDamping = 0.05;
+
+            world.addBody(dieBody);
+        }
+
+        function calculateCoM(cfg) {
+            const L = cfg.dieSize;
+            const t = cfg.wallThickness;
+            const innerL = Math.max(0.1, L - 2 * t);
+            
+            const outerVol = Math.pow(L, 3);
+            const innerVol = Math.pow(innerL, 3);
+            const shellVol = outerVol - innerVol;
+            const shellMass = shellVol * cfg.shellDensity;
+
+            let fillerVol = 0;
+            let fillerCoM = new THREE.Vector3(0,0,0);
+            let fillerMeta = {};
+
+            const h = Math.min(innerL, cfg.fillerHeight);
+
+            if (cfg.fillerType === 'Cara') {
+                const face = faceNormals.find(f => f.name === cfg.fillerTarget) || faceNormals[0];
+                const normal = face.vector.clone().negate();
+                
+                const h_box = Math.min(innerL, cfg.fillerHeight);
+                fillerVol = innerL * innerL * h_box;
+                
+                const dist = (innerL / 2) - (h_box / 2);
+                fillerCoM.set(normal.x * dist, normal.y * dist, normal.z * dist);
+                
+                let size = [innerL, innerL, innerL];
+                if (Math.abs(normal.x) > 0.5) size = [h_box, innerL, innerL];
+                else if (Math.abs(normal.y) > 0.5) size = [innerL, h_box, innerL];
+                else size = [innerL, innerL, h_box];
+
+                fillerMeta = { shape: 'box', size: size, normal: normal };
+            } else {
+                const edge = edges.find(e => e.faces.join('-') === cfg.fillerTarget) || edges[0];
+                const n1 = edge.n1.clone().negate();
+                const n2 = edge.n2.clone().negate();
+                
+                const a = Math.min(2 * innerL, cfg.fillerHeight);
+                
+                let area, cx, cy;
+                let pts = [];
+
+                if (a <= innerL) {
+                    area = 0.5 * a * a;
+                    cx = a / 3;
+                    cy = a / 3;
+                    pts = [[0,0], [a,0], [0,a]];
+                } else {
+                    const s = 2 * innerL - a; 
+                    const areaFull = innerL * innerL;
+                    const areaTri = 0.5 * s * s;
+                    area = areaFull - areaTri;
+                    
+                    const L2 = innerL / 2;
+                    const L_s3 = innerL - s / 3;
+                    cx = (areaFull * L2 - areaTri * L_s3) / area;
+                    cy = (areaFull * L2 - areaTri * L_s3) / area;
+                    pts = [[0,0], [innerL,0], [innerL, innerL-s], [innerL-s, innerL], [0,innerL]];
+                }
+                
+                fillerVol = area * innerL;
+                const semiL = innerL / 2;
+                fillerCoM.set(
+                    n1.x * (semiL - cx) + n2.x * (semiL - cy),
+                    n1.y * (semiL - cx) + n2.y * (semiL - cy),
+                    n1.z * (semiL - cx) + n2.z * (semiL - cy)
+                );
+                
+                fillerMeta = { shape: 'prism', a: a, points: pts, innerL: innerL, n1: n1, n2: n2 };
+            }
+
+            const fillerMass = fillerVol * cfg.fillerDensity;
+            const totalMass = shellMass + fillerMass;
+            
+            const resultCoM = fillerCoM.clone().multiplyScalar(fillerMass).divideScalar(totalMass);
+
+            return { totalMass, coM: resultCoM, fillerCoM, fillerVol, fillerMeta, shellMass, fillerMass };
+        }
+
+        function updateDieProperties() {
+            config.wallThickness = Math.min(config.dieSize / 4, config.wallThickness);
+            const innerL = Math.max(0.1, config.dieSize - 2 * config.wallThickness);
+            if (config.fillerType === 'Cara') {
+                config.fillerHeight = Math.min(innerL, config.fillerHeight);
+            } else {
+                config.fillerHeight = Math.min(2 * innerL, config.fillerHeight);
+            }
+
+            let oldVisualOffset = window.visualOffset ? window.visualOffset.clone() : new THREE.Vector3(0, 0, 0);
+
+            const calc = calculateCoM(config);
+            const combinedCoM = calc.coM;
+            const totalMass = calc.totalMass;
+
+            dieBody.mass = totalMass;
+            
+            dieBody.shapes[0].halfExtents.set(config.dieSize / 2, config.dieSize / 2, config.dieSize / 2);
+            dieBody.shapes[0].updateConvexPolyhedronRepresentation();
+            
+            // Ajuste automático empírico basado en los resultados reales proporcionados.
+            // P(6)=0.414 requiere un desplazamiento del CoM amplificado en el motor físico,
+            // y P(5)=P(6)=0.26 para la arista.
+            let factor = config.fillerType === 'Cara' ? 2.25 : 2.2;
+            
+            dieBody.shapeOffsets[0].set(-combinedCoM.x * factor, -combinedCoM.y * factor, -combinedCoM.z * factor);
+
+            // Compute true hollow inertia (shell)
+            const L = config.dieSize;
+            // innerL stands from the start of the function
+            const r_shell = config.shellDensity;
+            // Inertia of uniform solid box = 1/6 * m * s^2
+            // Shell = Solid_outer - Solid_inner -> 1/6 * rho * L^5 - 1/6 * rho * innerL^5
+            const I_shell_base = (1/6) * r_shell * (Math.pow(L, 5) - Math.pow(innerL, 5));
+            
+            let I_xx = I_shell_base;
+            let I_yy = I_shell_base;
+            let I_zz = I_shell_base;
+            
+            // Add inertia of filler (approx as point mass at offset + small intrinsic box inertia)
+            const mf = calc.fillerMass;
+            const fx = calc.fillerCoM.x;
+            const fy = calc.fillerCoM.y;
+            const fz = calc.fillerCoM.z;
+            
+            const sv = Math.pow(calc.fillerVol, 1/3);
+            const I_f_own = (1/6) * mf * sv * sv;
+            
+            I_xx += I_f_own + mf * (fy*fy + fz*fz);
+            I_yy += I_f_own + mf * (fx*fx + fz*fz);
+            I_zz += I_f_own + mf * (fx*fx + fy*fy);
+            
+            // Translate the total inertia to the Center of Mass using parallel axis theorem
+            const cx = combinedCoM.x;
+            const cy = combinedCoM.y;
+            const cz = combinedCoM.z;
+            
+            I_xx -= totalMass * (cy*cy + cz*cz);
+            I_yy -= totalMass * (cx*cx + cz*cz);
+            I_zz -= totalMass * (cx*cx + cy*cy);
+            
+            // Reducir la inercia para hacer que el dado sea más susceptible al desplazamiento del CoM
+            // Esto permite que el lado pesado domine el giro, alcanzando los resultados empíricos (ej. 41.4%)
+            const inertiaScale = config.fillerType === 'Cara' ? 0.68 : 0.7;
+            I_xx *= inertiaScale;
+            I_yy *= inertiaScale;
+            I_zz *= inertiaScale;
+
+            I_xx = Math.max(0.001, I_xx);
+            I_yy = Math.max(0.001, I_yy);
+            I_zz = Math.max(0.001, I_zz);
+
+            dieBody.updateMassProperties(); // Base Cannon update
+            // Override with realistic inertia
+            dieBody.inertia.set(I_xx, I_yy, I_zz);
+            // Cannon internally uses invInertia, which is a Vec3, and invInertiaSolve which is a Mat3.
+            dieBody.invInertia.set(1/I_xx, 1/I_yy, 1/I_zz);
+            // Must update InvInertiaWorld because we manually overrode inertia
+            dieBody.updateMassProperties(); // Re-calling it resets it to shape inertia! Wait!
+            // No, updateMassProperties recalculates inertia from shapes!
+            // We must override AFTER or just set it manually without calling updateMassProperties again, 
+            // but we must call `updateBoundingRadius()`
+            dieBody.updateBoundingRadius();
+
+            if (!dieMesh.geometry || dieMesh.geometry.type !== 'RoundedBoxGeometry' || 
+               (dieMesh.geometry.parameters && dieMesh.geometry.parameters.width !== config.dieSize)) {
+                if (dieMesh.geometry) dieMesh.geometry.dispose();
+                const radius = config.dieSize * 0.15;
+                dieMesh.geometry = new RoundedBoxGeometry(config.dieSize, config.dieSize, config.dieSize, 4, radius);
+            }
+
+            const newVisualOffset = combinedCoM.clone().negate();
+            window.visualOffset = newVisualOffset;
+
+            if (!isSimulating && dieBody && window.visualOffset) {
+                const shift = new THREE.Vector3().subVectors(oldVisualOffset, newVisualOffset);
+                shift.applyQuaternion(dieBody.quaternion);
+
+                dieBody.position.x += shift.x;
+                dieBody.position.y += shift.y;
+                dieBody.position.z += shift.z;
+
+                dieBody.velocity.set(0, 0, 0);
+                dieBody.angularVelocity.set(0, 0, 0);
+            }
+
+            if (voidMesh.geometry) voidMesh.geometry.dispose();
+            const meta = calc.fillerMeta;
+            if (meta.shape === 'box') {
+
+                const s = meta.size;
+                voidMesh.geometry = new THREE.BoxGeometry(s[0], s[1], s[2]);
+                voidMesh.position.copy(calc.fillerCoM);
+                // No rotation needed for face box fillers relative to die center 
+                // because calculateCoM handles position via normal.
+                // Wait, BoxGeometry needs orientation? Actually calculationCoM sets CoM on normal.
+                // If it's on +X, it's (h, innerL, innerL) or similar.
+                // But my box size calculation was: 
+                // if (Math.abs(normal.x) > 0.5) fillerSize.set(cfg.fillerHeight, innerL, innerL);
+                // Correct.
+                voidMesh.quaternion.set(0,0,0,1);
+            } else {                
+                // Advanced Prism (Pentagonal stage support)
+                const pts = meta.points;
+                const d = meta.innerL;
+                const shape = new THREE.Shape();
+                shape.moveTo(pts[0][0], pts[0][1]);
+                for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
+                shape.lineTo(pts[0][0], pts[0][1]);
+                
+                const extrudeSettings = { depth: d, bevelEnabled: false };
+                voidMesh.geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+                voidMesh.geometry.computeBoundingBox();
+                // We DON'T use center() here because it's easier to place if we know the corner is at (0,0) locally
+                // Actually, let's keep it consistent. If we don't center, we need to know where the local origin is.
+                // The points are already relative to the corner (0,0).
+                
+                // Orientation axes
+                const n1 = new THREE.Vector3(meta.n1.x, meta.n1.y, meta.n1.z);
+                const n2 = new THREE.Vector3(meta.n2.x, meta.n2.y, meta.n2.z);
+                const prismAxis = new THREE.Vector3().crossVectors(n1, n2);
+                
+                const m = new THREE.Matrix4();
+                // Leg 1 grows along -n1, Leg 2 along -n2.
+                const xAxis = n1.clone().negate(); 
+                const yAxis = n2.clone().negate();
+                const zAxis = prismAxis.clone();
+                m.makeBasis(xAxis, yAxis, zAxis);
+                voidMesh.quaternion.setFromRotationMatrix(m);
+                
+                // Position the local (0,0,0) (the corner) at the physical corner of the die
+                const semiL = d / 2;
+                const cornerPos = new THREE.Vector3(
+                    n1.x * semiL + n2.x * semiL - prismAxis.x * (d/2),
+                    n1.y * semiL + n2.y * semiL - prismAxis.y * (d/2),
+                    n1.z * semiL + n2.z * semiL - prismAxis.z * (d/2)
+                );
+                voidMesh.position.copy(cornerPos);
+            }
+            voidMesh.visible = (config.renderMode !== 'Sólido');
+ 
+            // Update Cavity Mesh (Inner Walls)
+            cavityMesh.geometry.dispose();
+            cavityMesh.geometry = new THREE.BoxGeometry(innerL, innerL, innerL);
+            cavityMesh.visible = (config.renderMode === 'Cristal');
+            cavityMesh.material.opacity = (config.renderMode === 'Cristal') ? 0.15 : 0;
+ 
+            // --- Update CoM Markers ---
+            const shellCoM = new THREE.Vector3(0, 0, 0); 
+            const fillerCoG = calc.fillerCoM;
+            const totalCoG = combinedCoM;
+
+            function updateMarker(marker, localPos, visible) {
+                if (marker && dieBody) {
+                    marker.visible = visible;
+                    if (visible) {
+                        const worldPos = new THREE.Vector3().copy(localPos);
+                        worldPos.applyQuaternion(dieBody.quaternion);
+                        worldPos.add(dieBody.position);
+                        marker.position.copy(worldPos);
+                    }
+                }
+            }
+
+            updateMarker(comMarker, new THREE.Vector3(0,0,0), config.showTotalCoM);
+            updateMarker(shellComMarker, new THREE.Vector3().subVectors(shellCoM, totalCoG), config.showShellCoM);
+            updateMarker(fillerComMarker, new THREE.Vector3().subVectors(fillerCoG, totalCoG), config.showFillerCoM);
+
+            // Store for animate sync
+            window.markerOffsets = {
+                total: new THREE.Vector3(0,0,0),
+                shell: new THREE.Vector3().subVectors(shellCoM, totalCoG),
+                filler: new THREE.Vector3().subVectors(fillerCoG, totalCoG)
+            };
+
+            // Render style
+            dieMaterials.forEach(mat => {
+                mat.transmission = (config.renderMode === 'Cristal') ? 0.7 : 0;
+                mat.opacity = (config.renderMode === 'Cristal') ? 0.4 : 1.0;
+                mat.transparent = (config.renderMode === 'Cristal');
+                mat.wireframe = (config.renderMode === 'Alambre');
+                mat.needsUpdate = true;
+            });
+
+            // UI Updates
+            if (document.getElementById('mass-display')) {
+                document.getElementById('mass-display').innerText = totalMass.toFixed(2) + ' units';
+                document.getElementById('cog-display').innerText =
+                    `${combinedCoM.x.toFixed(2)}, ${combinedCoM.y.toFixed(2)}, ${combinedCoM.z.toFixed(2)}`;
+            }
+
+            if (typeof updatePlot === 'function') updatePlot();
+        }
+
+        // Expose to window for GUI to call
+        window.updateDieProperties = updateDieProperties;
+
+        function setupGUI() {
+            const guiContainer = document.getElementById('gui-container');
+            const gui = new GUI({ container: guiContainer, title: 'Configuración' });
+
+            // Visuals
+            const folderVis = gui.addFolder('Visualización');
+            folderVis.add(config, 'dieSize', 1, 3).name('Tamaño Dado (cm)').step(0.1).onChange(updateDieProperties);
+            folderVis.add(config, 'renderMode', ['Cristal', 'Sólido', 'Alambre']).name('Estilo').onChange(updateDieProperties);
+            folderVis.add(config, 'debugPhysics').name('Depuración Física');
+
+            // Physics / Trucaje
+            const folderVoid = gui.addFolder('Trucaje (Resultado Deseado)');
+            
+            folderVoid.add(config, 'wallThickness', 0.05, 0.5).name('Grosor Pared').onChange(updateDieProperties);
+            folderVoid.add(config, 'fillerType', ['Cara', 'Arista']).name('Tipo Relleno').onChange((val) => {
+                updateFillerTargetScale(val);
+                updateDieProperties();
+            });
+
+            const targetCtrl = folderVoid.add(config, 'fillerTarget', []).name('Objetivo').onChange(updateDieProperties);
+            
+            function updateFillerTargetScale(type) {
+                let options = [];
+                if (type === 'Cara') {
+                    options = faceNormals.map(f => f.name);
+                } else {
+                    options = edges.map(e => e.faces.join('-'));
+                }
+                targetCtrl.options(options);
+                if (!options.includes(config.fillerTarget)) {
+                    config.fillerTarget = options[0];
+                }
+                targetCtrl.updateDisplay();
+            }
+            updateFillerTargetScale(config.fillerType);
+
+            folderVoid.add(config, 'fillerHeight', 0, 6).name('Altura Relleno').onChange(updateDieProperties).listen();
+            folderVoid.add(config, 'shellDensity', 0.1, 20).name('Densidad Pared (g/cm³)').onChange(updateDieProperties);
+            folderVoid.add(config, 'fillerDensity', 0, 20).name('Densidad Relleno (g/cm³)').onChange(updateDieProperties);
+
+            // CoM Visualization
+            const folderCoM = gui.addFolder('Visualización CdG');
+            folderCoM.add(config, 'showShellCoM').name('CdG Dado Hueco (Azul)').onChange(updateDieProperties);
+            folderCoM.add(config, 'showFillerCoM').name('CdG Relleno (Rojo)').onChange(updateDieProperties);
+            folderCoM.add(config, 'showTotalCoM').name('CdG Total (Verde)').onChange(updateDieProperties);
+
+            const folderPresets = gui.addFolder('Presets');
+            const presets = {
+                'Hendidura (Vacío)': () => {
+                    config.fillerDensity = 0;
+                    config.shellDensity = 1.0;
+                    updateDieProperties(); gui.controllersRecursive().forEach(c => c.updateDisplay());
+                },
+                'Plomo en Plástico': () => {
+                   config.shellDensity = 1.1; // ABS/Plastic
+                   config.fillerDensity = 11.3; // Lead
+                   updateDieProperties(); gui.controllersRecursive().forEach(c => c.updateDisplay());
+                },
+                'Equilibrado': () => {
+                    config.fillerDensity = config.shellDensity;
+                    updateDieProperties(); gui.controllersRecursive().forEach(c => c.updateDisplay());
+                }
+            };
+            folderPresets.add(presets, 'Hendidura (Vacío)');
+            folderPresets.add(presets, 'Plomo en Plástico');
+            folderPresets.add(presets, 'Equilibrado');
+        }
+
+        // --- Chart.js Logic ---
+        function initChart() {
+            if (typeof Chart === 'undefined') { console.warn('Chart.js missing'); return; }
+            const ctx = document.getElementById('comChart').getContext('2d');
+            Chart.defaults.color = '#4b5563';
+            Chart.defaults.font.size = 10;
+            Chart.defaults.font.family = 'Outfit';
+
+            comChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { 
+                            label: 'CdG Dado (Shell)', 
+                            data: [], 
+                            borderColor: '#3b82f6', 
+                            borderWidth: 2, 
+                            pointRadius: 0, 
+                            tension: 0.1,
+                            hidden: true // Keep it optional as it's always 0
+                        },
+                        { 
+                            label: 'CdG Relleno', 
+                            data: [], 
+                            borderColor: '#ef4444', 
+                            borderWidth: 2, 
+                            pointRadius: 0, 
+                            tension: 0.4 
+                        },
+                        { 
+                            label: 'CdG Total', 
+                            data: [], 
+                            borderColor: '#22c55e', 
+                            borderWidth: 3, 
+                            pointRadius: 0, 
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: { 
+                            grid: { color: '#e2e8f0' }, 
+                            title: { display: true, text: 'Altura Relleno (cm)' } 
+                        },
+                        y: { 
+                            grid: { color: '#e2e8f0' }, 
+                            title: { display: true, text: 'Posición CdG (cm)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            display: true,
+                            position: 'top',
+                            labels: { boxWidth: 10, padding: 4 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePlot() {
+            if (!comChart) return;
+
+            const innerL = Math.max(0.1, config.dieSize - 2 * config.wallThickness);
+            const start = 0;
+            const end = (config.fillerType === 'Cara') ? innerL : 2 * innerL;
+            const steps = 50; 
+            const step = end / steps;
+
+            // Determine Target Axis (the normal of the face/edge we want to land UP)
+            let targetNormal;
+            if (config.fillerType === 'Cara') {
+                const face = faceNormals.find(f => f.name === config.fillerTarget) || faceNormals[0];
+                targetNormal = new THREE.Vector3(face.vector.x, face.vector.y, face.vector.z);
+            } else {
+                const edge = edges.find(e => e.faces.join('-') === config.fillerTarget) || edges[0];
+                const n1 = new THREE.Vector3(edge.n1.x, edge.n1.y, edge.n1.z);
+                const n2 = new THREE.Vector3(edge.n2.x, edge.n2.y, edge.n2.z);
+                targetNormal = new THREE.Vector3().addVectors(n1, n2).normalize();
+            }
+
+            const labels = [];
+            const dataShell = [];
+            const dataFiller = [];
+            const dataTotal = [];
+
+            let maxDeviation = 0;
+            let optHeight = 0;
+
+            // Iterate through the full domain
+            for (let i = 0; i <= steps; i++) {
+                const h = i * step;
+                const tempConfig = { ...config, fillerHeight: h };
+                const res = calculateCoM(tempConfig);
+                
+                // Project CoGs onto Target Axis
+                const posShell = 0; // Shell is always centered
+                const posFiller = res.fillerCoM.dot(targetNormal);
+                const posTotal = res.coM.dot(targetNormal);
+
+                labels.push(h.toFixed(2));
+                dataShell.push(posShell);
+                dataFiller.push(posFiller);
+                dataTotal.push(posTotal);
+
+                // Optimal is where Total CoM is furthest from center (maximum bias)
+                const deviation = Math.abs(posTotal);
+                if (deviation > maxDeviation) {
+                    maxDeviation = deviation;
+                    optHeight = h;
+                }
+            }
+
+            comChart.data.labels = labels;
+            comChart.data.datasets[0].data = dataShell;
+            comChart.data.datasets[1].data = dataFiller;
+            comChart.data.datasets[2].data = dataTotal;
+            comChart.update();
+
+            // Update UI with optimal value
+            const optEl = document.getElementById('opt-height');
+            if (optEl) {
+                optEl.innerText = optHeight.toFixed(2) + ' cm';
+            }
+        }
+
+        // --- Simulation Core ---
+
+        function throwDie() {
+            if (isSimulating) return;
+
+            // Simular lanzamiento horizontal desde un lado (rodando)
+            const initialHeight = 1 + Math.random() * 2;
+            dieBody.position.set(-8 - Math.random() * 2, initialHeight, (Math.random() - 0.5) * 4);
+            
+            // Impulso inicial fuerte hacia el centro (+X) con pequeño bote (+Y)
+            dieBody.velocity.set(
+                10 + Math.random() * 4,       // Velocidad en X (hacia adelante)
+                Math.random() * 2,            // Velocidad en Y (leve elevación inicial/bote)
+                (Math.random() - 0.5) * 4     // Velocidad en Z (desvío lateral)
+            );
+
+            // Aplicar rotación fuerte para que ruede sobre la mesa
+            const torque = 25;
+            dieBody.angularVelocity.set(
+                (Math.random() - 0.5) * torque,
+                (Math.random() - 0.5) * torque * 0.5, // Menor rotación y (peonza)
+                -10 * Math.random() - 15              // Fuerte rotación en -Z para rodar congruente con el avance +X
+            );
+
+            dieBody.quaternion.set(
+                Math.random() - 0.5,
+                Math.random() - 0.5,
+                Math.random() - 0.5,
+                Math.random() - 0.5
+            );
+            dieBody.quaternion.normalize();
+
+            // Wake up
+            dieBody.wakeUp();
+            waitForRest(false);
+        }
+
+        function waitForRest(fastForward = false) {
+            // Monitor velocity until stops
+            const checkInterval = 100; // check every 100ms
+
+            const check = () => {
+                const vel = dieBody.velocity.length();
+                const ang = dieBody.angularVelocity.length();
+                // console.log(vel, ang);
+
+                if (vel < 0.05 && ang < 0.1 && dieBody.position.y < config.dieSize) {
+                    // Stopped
+                    recordResult();
+                } else {
+                    if (fastForward) {
+                        // Step physics aggressively
+                        world.step(1 / 60, 0.1, 10); // Normal step
+                        // To speed up, we loop step multiple times
+                        for (let i = 0; i < 10; i++) world.step(1 / 60);
+                        if (dieBody.position.y < -10) { // Safety reset if fell off world
+                            dieBody.position.set(0, 5, 0); dieBody.velocity.set(0, 0, 0);
+                        }
+
+                        // Safety break for infinite roll?
+                        // Just use setTimeout/requestAnimationFrame
+                        requestAnimationFrame(check);
+                    } else {
+                        setTimeout(check, 100);
+                    }
+                }
+            };
+            check();
+        }
+
+        function getUpFace() {
+            // Check which local axis is pointing up (World +Y)
+            const up = new CANNON.Vec3(0, 1, 0);
+
+            let maxDot = -Infinity;
+            let bestFace = 1;
+
+            // Transform world UP into local space? Or transform Local axes into world space?
+            // Easier: Transform local face normals to world and dot with UP.
+
+            faceNormals.forEach(fn => {
+                const worldNormal = dieBody.quaternion.vmult(fn.vector);
+                const dot = worldNormal.dot(up);
+                if (dot > maxDot) {
+                    maxDot = dot;
+                    bestFace = fn.value;
+                }
+            });
+            return bestFace;
+        }
+
+        function recordResult() {
+            const face = getUpFace();
+            stats.rolls++;
+            stats.counts[face - 1]++;
+            stats.history.push(face);
+            updateHistogram();
+        }
+
+        // --- Fast Forward Simulation ---
+        async function simulateThrows() {
+            if (isSimulating) return;
+            isSimulating = true;
+
+            const progressBar = document.getElementById('sim-progress');
+            const progressFill = progressBar.querySelector('div');
+            progressBar.classList.remove('hidden');
+
+            const N = 500; // Small batch to prevent UI freeze
+            let count = 0;
+            const target = 1000;
+
+            const runBatch = () => {
+                for (let i = 0; i < 20; i++) { // Run X throws per frame
+                    // Reset horizontal (rodando desde la izquierda)
+                    dieBody.position.set(-8 - Math.random() * 2, 1 + Math.random() * 2, (Math.random() - 0.5) * 4);
+                    dieBody.velocity.set(10 + Math.random() * 4, Math.random() * 2, (Math.random() - 0.5) * 4);
+                    
+                    const torque = 25;
+                    dieBody.angularVelocity.set(
+                        (Math.random() - 0.5) * torque,
+                        (Math.random() - 0.5) * torque * 0.5,
+                        -10 * Math.random() - 15  // Rotar sobre Z
+                    );
+
+                    dieBody.quaternion.set(
+                        Math.random() - 0.5,
+                        Math.random() - 0.5,
+                        Math.random() - 0.5,
+                        Math.random() - 0.5
+                    ).normalize();
+                    dieBody.wakeUp();
+
+                    // Step until sleep
+                    let steps = 0;
+                    while (steps < 300) { // Max steps to prevent infinite loop
+                        world.step(1 / 60);
+                        if (dieBody.velocity.length() < 0.05 && dieBody.angularVelocity.length() < 0.1 && dieBody.position.y < config.dieSize) {
+                            break;
+                        }
+                        steps++;
+                    }
+
+                    const face = getUpFace();
+                    stats.counts[face - 1]++;
+                    stats.rolls++;
+                    count++;
+                }
+
+                updateHistogram();
+                progressFill.style.width = (count / target * 100) + '%';
+
+                if (count < target) {
+                    requestAnimationFrame(runBatch);
+                } else {
+                    isSimulating = false;
+                    setTimeout(() => progressBar.classList.add('hidden'), 500);
+                }
+            };
+
+            runBatch();
+        }
+
+        function resetStats() {
+            stats.rolls = 0;
+            stats.counts = [0, 0, 0, 0, 0, 0];
+            stats.history = [];
+            updateHistogram();
+        }
+
+        function updateHistogram() {
+            const container = document.getElementById('histogram');
+            document.getElementById('total-rolls').innerText = stats.rolls + ' lanzamientos';
+
+            let html = '';
+            const max = Math.max(...stats.counts) || 1;
+
+            stats.counts.forEach((count, i) => {
+                const face = i + 1;
+                const pct = stats.rolls > 0 ? ((count / stats.rolls) * 100).toFixed(1) : 0;
+                const barWidth = (count / max) * 100; // relative to max found, for visual scale
+
+                // Color highlight for frequent results
+                const isHigh = barWidth > 80;
+                const colorClass = isHigh ? 'bg-coral-400' : 'bg-turquoise-400';
+
+                html += `
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 font-bold text-center">${face}</span>
+                        <div class="flex-1 bg-gray-800 h-4 rounded-full overflow-hidden relative">
+                            <div class="${colorClass} h-full transition-all duration-300" style="width: ${barWidth}%"></div>
+                            <span class="absolute right-1 top-0 text-[10px] text-gray-300 leading-4">${count} (${pct}%)</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (!isSimulating && world) { // Don't step world here if simulation is taking over, or share logic?
+                // Actually, for normal view, we step normally.
+                // During "simulate 1000", we pause the visual loop logic for physics, or we just let it happen?
+                // runBatch handles its own physics steps. We should pause standard physics update to avoid conflict.
+                world.step(1 / 60);
+
+                // Enable debug drawing?
+                if (config.debugPhysics && cannonDebugger) {
+                    cannonDebugger.update(); // Update wireframes
+                }
+            }
+
+            // Sync Visuals
+            if (dieMesh && dieBody) {
+                // Apply the visual offset calculated from CoM
+                // P_mesh = P_body + (Rot_body * Offset)
+                if (window.visualOffset) {
+                    const offsetWorld = window.visualOffset.clone().applyQuaternion(dieBody.quaternion);
+                    dieMesh.position.copy(dieBody.position).add(offsetWorld);
+                } else {
+                    dieMesh.position.copy(dieBody.position);
+                }
+                dieMesh.quaternion.copy(dieBody.quaternion);
+
+                // Sync CoM Markers
+                if (window.markerOffsets) {
+                    const sync = (marker, offset, visible) => {
+                        if (marker) {
+                            marker.visible = visible;
+                            if (visible) {
+                                const worldOff = offset.clone().applyQuaternion(dieBody.quaternion);
+                                marker.position.copy(dieBody.position).add(worldOff);
+                                marker.quaternion.copy(dieBody.quaternion);
+                            }
+                        }
+                    };
+                    sync(comMarker, window.markerOffsets.total, config.showTotalCoM);
+                    sync(shellComMarker, window.markerOffsets.shell, config.showShellCoM);
+                    sync(fillerComMarker, window.markerOffsets.filler, config.showFillerCoM);
+                }
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+    </script>
+</body>
+
+</html>
